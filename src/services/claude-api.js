@@ -1,8 +1,12 @@
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 function getToken() {
-  const session = JSON.parse(localStorage.getItem('supabase-session') || '{}');
-  return session.access_token || '';
+  try {
+    const session = JSON.parse(localStorage.getItem('supabase-session') || '{}');
+    return session.access_token || '';
+  } catch {
+    return '';
+  }
 }
 
 export async function analyserPhoto(imageBase64) {
