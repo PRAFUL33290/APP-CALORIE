@@ -13,12 +13,13 @@ export default function Scanner() {
   const [stream, setStream] = useState(null);
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
+  const streamRef = useRef(null);
 
   useEffect(() => {
     startCamera();
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
       }
     };
   }, []);
@@ -29,6 +30,7 @@ export default function Scanner() {
         video: { facingMode: 'environment', width: { ideal: 1024 }, height: { ideal: 1024 } }
       });
       setStream(mediaStream);
+      streamRef.current = mediaStream;
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
