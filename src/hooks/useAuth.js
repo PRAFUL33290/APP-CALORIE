@@ -30,13 +30,16 @@ export function useAuth() {
   }, []);
 
   async function fetchProfile(userId) {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-    setProfile(data);
-    setLoading(false);
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      setProfile(data);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function signIn(email, password) {

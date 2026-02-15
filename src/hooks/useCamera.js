@@ -44,12 +44,13 @@ export function useCamera() {
   }, [stopCamera]);
 
   const uploadPhoto = useCallback((file) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhoto(reader.result);
         resolve(reader.result);
       };
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
     });
   }, []);
